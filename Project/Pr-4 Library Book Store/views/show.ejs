@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Books</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 230px;
+            background: linear-gradient(180deg, #2c3e50, #1a252f);
+            padding: 25px 15px;
+            color: #fff;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar h3 {
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .sidebar .nav-link {
+            color: #ddd;
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar .nav-link:hover {
+            background: #1abc9c;
+            color: #fff;
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(26, 188, 156, 0.4);
+        }
+
+        /* Content */
+        .content {
+            margin-left: 250px;
+            padding: 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Table */
+        table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        tbody tr {
+            transition: all 0.25s ease;
+        }
+
+        tbody tr:hover {
+            background: #ecf0f1;
+            transform: scale(1.01);
+        }
+
+        /* Buttons */
+        .btn {
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(230, 126, 34, 0.4);
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(192, 57, 43, 0.4);
+        }
+
+        .btn-success:hover {
+            background: #27ae60;
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(39, 174, 96, 0.4);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <%- include("sidebar") %>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <div class="card p-4">
+            <h2 class="mb-4">📖 Book Catalog</h2>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>ISBN</th>
+                        <th>Genre</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% allTask.map((book, i)=> { %>
+                        <tr>
+                            <td><%= ++i %></td>
+                            <td><img src="/uploads/<%= book.profile %>" width="90" height="100" class="rounded"></td>
+                            <td><%= book.title %></td>
+                            <td><%= book.author %></td>
+                            <td><%= book.isbn %></td>
+                            <td><%= book.genre %></td>
+                            <td><%= book.totalBooks %></td>
+                            <td>
+                                <a href="/editBook/<%= book._id %>" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></a>
+                                <a href="/show" style="outline: none; text-decoration: none;">👁️‍🗨️</a>
+                                <a href="/deleteBook?id=<%= book._id %>" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <div class="mt-3">
+                <a href="/" class="btn btn-success"><i class="bi bi-plus-circle"></i> Add New Book</a>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="card p-4 mt-4">
+            <h4 class="mb-3">📊 Book Statistics</h4>
+            <div class="row">
+                <!-- Pie Chart -->
+                <div class="col-md-6 text-center">
+                    <h5>Genre Distribution</h5>
+                    <canvas id="genreChart" style="max-height:350px;"></canvas>
+                </div>
+
+                <!-- Bar Chart -->
+                <div class="col-md-6 text-center">
+                    <h5>Books by Author</h5>
+                    <canvas id="authorChart" style="max-height:350px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js Script -->
+    <script>
+        // Collect data from EJS
+           const books = JSON.parse(`<%- JSON.stringify(allTask) %>`);
+
+        // ===== Genre Count =====
+        const genreCount = {};
+        books.forEach(book => {
+            genreCount[book.genre] = (genreCount[book.genre] || 0) + 1;
+        });
+
+        // ===== Author Count =====
+        const authorCount = {};
+        books.forEach(book => {
+            authorCount[book.author] = (authorCount[book.author] || 0) + 1;
+        });
+
+        // ===== Pie Chart: Genre Distribution =====
+        const ctxGenre = document.getElementById('genreChart').getContext('2d');
+        new Chart(ctxGenre, {
+            type: 'pie',
+            data: {
+                labels: Object.keys(genreCount),
+                datasets: [{
+                    data: Object.values(genreCount),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)'
+                    ],
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+        });
+
+        // ===== Bar Chart: Books by Author =====
+        const ctxAuthor = document.getElementById('authorChart').getContext('2d');
+        new Chart(ctxAuthor, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(authorCount),
+                datasets: [{
+                    label: 'Books',
+                    data: Object.values(authorCount),
+                    backgroundColor: 'rgba(54, 162, 235, 0.7)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
