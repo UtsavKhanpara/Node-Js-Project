@@ -1,0 +1,174 @@
+/* General */
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: #fdfdfd;
+  color: #333;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 15px 30px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #f39c12;
+}
+
+.btn {
+  background: #f39c12;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+  background: #d35400;
+  transform: scale(1.05);
+}
+
+/* Form Container */
+.form-container {
+  background: #fff;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.form-container h2 {
+  margin-bottom: 25px;
+  color: #444;
+  text-align: center;
+  font-size: 22px;
+  position: relative;
+}
+
+.form-container h2::after {
+  content: "📝";
+  position: absolute;
+  right: -35px;
+  font-size: 24px;
+}
+
+/* Inputs & Textarea */
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  margin-bottom: 18px;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+  border: 1px solid #f39c12;
+  box-shadow: 0 0 8px rgba(243, 156, 18, 0.4);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 130px;
+}
+
+/* Checkbox Group */
+/* Checkbox Group */
+.checkbox-group {
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;              /* gap between items */
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;    /* ✅ vertical center */
+  gap: 6px;
+  background: #f8f9fa;
+  padding: 10px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  white-space: nowrap;    /* ✅ text break na ho */
+  transition: all 0.3s;
+}
+
+.checkbox-group label:hover {
+  background: #fff5e6;
+  border-color: #f39c12;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin: 0;              /* ✅ default margin hataya */
+  accent-color: #f39c12;
+  cursor: pointer;
+}
+
+
+/* File Upload */
+input[type="file"] {
+  border: none;
+  font-size: 14px;
+  background: #fdf4e3;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background: #f39c12;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+input[type="file"]::-webkit-file-upload-button:hover {
+  background: #d35400;
+}
+
+/* Submit Button */
+button.btn {
+  width: 100%;
+  background: #f39c12;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button.btn:hover {
+  background: #d35400;
+  transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
