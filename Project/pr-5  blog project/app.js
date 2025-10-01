@@ -14,8 +14,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Set view engine
 app.set('view engine', 'ejs');
 
-
-
 // Add Blog Page
 app.get('/add', (req, res) => {
   return res.render('addBlog'); // matches addBlog.ejs
